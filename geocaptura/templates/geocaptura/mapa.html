@@ -1,0 +1,39 @@
+{% load leaflet_tags %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mapa</title>
+    {% leaflet_js %}
+    {% leaflet_css %}
+    <style>
+        .leaflet-container { height: 100vh; }
+    </style>
+</head>
+<body>
+    {% leaflet_map "main" %}
+    <script>
+        var dataurl = '/geoservicio-reportes/';
+  
+        window.addEventListener("map:init", function (event) {
+          var map = event.detail.map;
+          map.setView([18.8917,-99.1479], 8);
+          // Download GeoJSON data with Ajax
+          fetch(dataurl)
+            .then(function(resp) {
+              return resp.json();
+            })
+            .then(function(data) {
+              L.geoJson(data, {
+                onEachFeature: function onEachFeature(feature, layer) {
+                  var props = feature.properties;
+                  //var content = `<img width="300" src="${props.picture_url}"/><h3>${props.title}</h3><p>${props.description}</p>`;
+                  //layer.bindPopup(content);
+              }}).addTo(map);
+            });
+        });
+      </script>
+</body>
+</html>
