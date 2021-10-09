@@ -31,7 +31,9 @@
                   var props = feature.properties;
                   
                   layer.bindPopup(`${props.descripcion}`);
-              }}).addTo(map);
+              },
+              //style:function(feature){ return {color:'red'}}
+            }).addTo(map);
             });
         });
       </script>
